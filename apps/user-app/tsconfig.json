@@ -6,8 +6,8 @@
         "name": "next"
       }
     ],
-    "declaration": true,
-    "declarationMap": true,
+    "declaration": false,
+    "declarationMap": false,
   },
   "include": [
     "next-env.d.ts",

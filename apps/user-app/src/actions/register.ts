@@ -31,10 +31,10 @@ export const register = async (data: z.infer<typeof RegisterSchema>) => {
     data: {
       name: name,
       email: email,
+      number: number,
       password: hashedPassword,
-      number: number
     },
   });
 
-  return { success: "Confimation email sent!" };
+  return { success: "Registerd Successfully" };
 };

@@ -2,17 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "@repo/shadcn/globals.css";
 
-import {
-  ClerkProvider,
-  SignInButton,
-  SignUpButton,
-  SignedIn,
-  SignedOut,
-  UserButton,
-} from "@clerk/nextjs";
-import { auth, clerkClient } from "@clerk/nextjs/server";
 import { Button } from "@repo/shadcn/components/ui/button";
-import { createUser } from "../actions/createUser";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -26,48 +16,17 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const { userId } = auth();
-  let response;
-  if (userId != null) {
-    response = await clerkClient.users.getUser(userId);
-    if (response) {
-      const user = {
-        id: response?.id,
-        name: response?.firstName + " " + response?.lastName,
-        email: response?.emailAddresses[0]?.emailAddress,
-        number: response?.phoneNumbers[0]?.phoneNumber,
-      };
-      await createUser(user);
-    }
-  }
-
   return (
     <html lang="en">
-      <ClerkProvider>
-        <html lang="en">
-          <body className={`${inter.className} h-screen w-screen`}>
-            <nav className="flex justify-between p-4 items-center border-2">
-              <div className="text-lg">PayTM</div>
-              <div className="flex flex-row">
-                <SignedOut>
-                  <Button variant="default">
-                    <SignInButton />
-                  </Button>
-                  <Button variant="default" className="ml-2">
-                    <SignUpButton />
-                  </Button>
-                </SignedOut>
-                <SignedIn>
-                  <Button variant="default">
-                    <UserButton />
-                  </Button>
-                </SignedIn>
-              </div>
-            </nav>
-            {children}
-          </body>
-        </html>
-      </ClerkProvider>
+      <html lang="en">
+        <body className={`${inter.className} h-screen w-screen`}>
+          <nav className="flex justify-between p-4 items-center border-2">
+            <div className="text-lg">PayTM</div>
+            <div className="flex flex-row"></div>
+          </nav>
+          {children}
+        </body>
+      </html>
     </html>
   );
 }
