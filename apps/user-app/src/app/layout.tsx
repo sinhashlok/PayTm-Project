@@ -25,7 +25,7 @@ export default async function RootLayout({
     <html lang="en">
       <html lang="en">
         <body className={`${inter.className} h-screen w-screen`}>
-          <nav className="flex justify-between p-4 px-2=0 items-center border-2">
+          <nav className="flex justify-between p-4 px-20 items-center border-b-2">
             <Link href="/">
               <div className="text-lg">PayTM</div>
             </Link>
@@ -35,7 +35,7 @@ export default async function RootLayout({
                   <Link href="/auth/login">
                     <Button>Log in</Button>
                   </Link>
-                  <Link href="/auth/register" className="ml-2">
+                  <Link href="/auth/register" className="ml-6">
                     <Button>Sign up</Button>
                   </Link>
                 </div>
