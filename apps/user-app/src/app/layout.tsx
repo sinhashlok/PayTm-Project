@@ -3,6 +3,8 @@ import { Inter } from "next/font/google";
 import "@repo/shadcn/globals.css";
 
 import { Button } from "@repo/shadcn/components/ui/button";
+import { auth, signOut } from "../auth";
+import Link from "next/link";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,13 +18,37 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const session = await auth();
+
   return (
     <html lang="en">
       <html lang="en">
         <body className={`${inter.className} h-screen w-screen`}>
           <nav className="flex justify-between p-4 items-center border-2">
-            <div className="text-lg">PayTM</div>
-            <div className="flex flex-row"></div>
+            <Link href="/">
+              <div className="text-lg">PayTM</div>
+            </Link>
+            <div className="flex flex-row">
+              {!session?.user ? (
+                <div>
+                  <Link href="/auth/login">
+                    <Button>Log in</Button>
+                  </Link>
+                  <Link href="/auth/signup" className="ml-2">
+                    <Button>Sign up</Button>
+                  </Link>
+                </div>
+              ) : (
+                <form
+                  action={async () => {
+                    "use server";
+                    await signOut();
+                  }}
+                >
+                  <button type="submit">Sign out</button>
+                </form>
+              )}
+            </div>
           </nav>
           {children}
         </body>
