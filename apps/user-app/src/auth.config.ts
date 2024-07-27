@@ -10,9 +10,9 @@ import { getUserByEmail } from "./data/user";
 interface User {
   id: number;
   name: string | null;
-  email: string;
-  number: string | null;
-  password: string | null;
+  email: string | null;
+  number: string;
+  password: string;
 }
 
 export default {
@@ -35,8 +35,7 @@ export default {
 
           const user: User | null = await getUserByEmail(email);
 
-          if (!user || !user.password) {
-            // no password - if login with google / github
+          if (!user) {
             return null;
           }
 

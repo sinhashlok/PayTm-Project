@@ -5,6 +5,7 @@ import "@repo/shadcn/globals.css";
 import { Button } from "@repo/shadcn/components/ui/button";
 import { auth, signOut } from "../auth";
 import Link from "next/link";
+import { SessionProvider } from "next-auth/react";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,7 +25,7 @@ export default async function RootLayout({
     <html lang="en">
       <html lang="en">
         <body className={`${inter.className} h-screen w-screen`}>
-          <nav className="flex justify-between p-4 items-center border-2">
+          <nav className="flex justify-between p-4 px-2=0 items-center border-2">
             <Link href="/">
               <div className="text-lg">PayTM</div>
             </Link>
@@ -34,7 +35,7 @@ export default async function RootLayout({
                   <Link href="/auth/login">
                     <Button>Log in</Button>
                   </Link>
-                  <Link href="/auth/signup" className="ml-2">
+                  <Link href="/auth/register" className="ml-2">
                     <Button>Sign up</Button>
                   </Link>
                 </div>
@@ -45,12 +46,12 @@ export default async function RootLayout({
                     await signOut();
                   }}
                 >
-                  <button type="submit">Sign out</button>
+                  <Button type="submit">Sign out</Button>
                 </form>
               )}
             </div>
           </nav>
-          {children}
+          <SessionProvider>{children}</SessionProvider>
         </body>
       </html>
     </html>
