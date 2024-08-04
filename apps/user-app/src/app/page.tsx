@@ -1,6 +1,6 @@
+import { Poppins } from "next/font/google";
 import { AuroraBackground } from "@repo/shadcn/components/aceternity/aurora-background";
 import { TextGenerateEffect } from "@repo/shadcn/components/aceternity/text-generate-effect";
-import { Poppins } from "next/font/google";
 
 const poppins = Poppins({
   weight: ["500"],
