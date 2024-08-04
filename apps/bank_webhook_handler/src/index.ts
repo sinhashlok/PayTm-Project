@@ -3,6 +3,7 @@ import express from "express";
 
 const app = express();
 const db = new PrismaClient();
+app.use(express.json());
 
 app.post("/hdfcWebhook", async (req, res) => {
   //TODO: Add zod validation here?
@@ -49,3 +50,5 @@ app.post("/hdfcWebhook", async (req, res) => {
     });
   }
 });
+
+app.listen(3003);

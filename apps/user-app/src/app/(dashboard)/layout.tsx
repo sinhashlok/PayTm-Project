@@ -27,6 +27,11 @@ const Layout = ({
             icon={<CiClock2 />}
             title="Transactions"
           />
+          <SidebarItem
+            href={"/p2p"}
+            icon={<GrTransaction />}
+            title="P2P Transfer"
+          />
         </div>
       </div>
       {children}

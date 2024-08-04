@@ -3,12 +3,13 @@ import { AddMoney } from "../../../components/dashboard/AddMoneyCard";
 import { BalanceCard } from "../../../components/dashboard/BalanceCard";
 import { OnRampTransactions } from "../../../components/dashboard/OnRampTransactions";
 import { auth } from "../../../auth";
+import { getSession } from "../../../actions/session";
 
 async function getBalance() {
-  const session = await auth();
+  const user = await getSession();
   const balance = await db.balance.findFirst({
     where: {
-      userId: Number(session?.user?.id),
+      userId: Number(user?.id),
     },
   });
   return {
@@ -18,10 +19,10 @@ async function getBalance() {
 }
 
 async function getOnRampTransactions() {
-  const session = await auth();
+  const user = await getSession();
   const txns = await db.onRampTransaction.findMany({
     where: {
-      userId: Number(session?.user?.id),
+      userId: Number(user?.id),
     },
   });
   return txns.map((t) => ({
@@ -32,9 +33,37 @@ async function getOnRampTransactions() {
   }));
 }
 
+async function getp2pTransfers() {
+  const user = await getSession();
+  console.log(user?.id);
+
+  const p2pTrans = await db.p2pTransfer.findMany({
+    where: {
+      OR: [{ toUserId: Number(user?.id) }, { fromUserId: Number(user?.id) }],
+    },
+    select: {
+      amount: true,
+      timestamp: true,
+      fromUser: {
+        select: {
+          name: true,
+        },
+      },
+      toUser: {
+        select: {
+          name: true,
+        },
+      },
+    },
+  });
+
+  return p2pTrans;
+}
+
 export default async function page() {
   const balance = await getBalance();
   const transactions = await getOnRampTransactions();
+  const p2pTransfers = await getp2pTransfers();
 
   return (
     <div className="w-screen">
